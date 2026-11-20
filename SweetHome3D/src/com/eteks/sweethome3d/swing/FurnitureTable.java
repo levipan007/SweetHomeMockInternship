@@ -1120,6 +1120,8 @@ public class FurnitureTable extends JTable implements View, Printable {
     private String getColumnName(HomePieceOfFurniture.SortableProperty property, 
                                  UserPreferences preferences) {
       switch (property) {
+        case VOLUME :
+          return preferences.getLocalizedString(FurnitureTable.class, "volumeColumn");
         case CATALOG_ID :
           return preferences.getLocalizedString(FurnitureTable.class, "catalogIdColumn");
         case NAME :
@@ -1168,6 +1170,8 @@ public class FurnitureTable extends JTable implements View, Printable {
      */
     private int getColumnPreferredWidth(HomePieceOfFurniture.SortableProperty property) {
       switch (property) {
+        case VOLUME :
+          return 80;
         case CATALOG_ID :
         case NAME :
           return 120; 
@@ -1205,6 +1209,8 @@ public class FurnitureTable extends JTable implements View, Printable {
     private TableCellRenderer getColumnRenderer(HomePieceOfFurniture.SortableProperty property, 
                                                 UserPreferences preferences) {
       switch (property) {
+        case VOLUME :
+          return getSizeRenderer(HomePieceOfFurniture.SortableProperty.VOLUME, preferences);
         case CATALOG_ID :
           return getCatalogIdRenderer(); 
         case NAME :
@@ -1311,6 +1317,17 @@ public class FurnitureTable extends JTable implements View, Printable {
       };
       
       switch (property) {
+        case VOLUME :
+          return new SizeRenderer() {
+              @Override
+              public Component getTableCellRendererComponent(JTable table,
+                  Object value, boolean isSelected, boolean hasFocus,
+                  int row, int column) {
+                return super.getTableCellRendererComponent(table,
+                    value != null  ? ((HomePieceOfFurniture)value).getVolume()  : null,
+                    isSelected, hasFocus, row, column);
+              }
+            };
         case WIDTH :
           return new SizeRenderer() {
               @Override
